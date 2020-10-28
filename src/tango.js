@@ -7,6 +7,8 @@ import BlankCard from './image/BlankCard.png';
 import OK from "./image/OK.png";
 import NG from "./image/NG.png";
 import Blank from "./image/blank.png";
+import DocumentMeta from 'react-document-meta';
+
 export default class tango extends Component  {
     constructor (props) {
         super(props);
@@ -141,8 +143,23 @@ export default class tango extends Component  {
         const button1 = Msg[0];
         const button2 = Msg[1];
         const button3 = Msg[2];
+
+        const meta = {
+            title: 'Elsammitの英単語アプリ作成してみた',
+            description: 'React初心者が英単語アプリを作ってみました。選択式でクイズを答えるだけ！！ゲーム感覚で単語が覚えられるよ',
+            canonical: 'http://example.com/path/to/page',
+            meta: {
+              charset: 'utf-8',
+              name: {
+                keywords: 'react,meta,document,html,tags'
+              }
+            }
+          };
+
         return (<div>
-            <h1  className="TangoDaimei">単語長アプリ</h1>
+            <DocumentMeta {...meta}>
+            
+            <h1  className="TangoDaimei">単語帳アプリ</h1>
             <div className="cardPlace">
                 <ReactCardFlip isFlipped={this.state.isFlipped}  flipSpeedFrontToBack={1.0}
                     flipSpeedBackToFront={1.0} flipDirection="vertical" infinite="true" width="300px">
@@ -160,6 +177,7 @@ export default class tango extends Component  {
                 <button id="button3" className='NextButton3' onClick={ () => this.nextClick(button3) }>{button3}</button>
                 <img className="seikai" id="OKNG" src={Blank} alt="" width="200" height="200" />
             </div>
+            </DocumentMeta>
           </div>
         )
       }
