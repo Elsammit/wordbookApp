@@ -20,49 +20,45 @@ export default class tango extends Component  {
             Num:0,
             Select:["", "", ""]
         };
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    SelectMsg = (Num) =>{
-        const {Tango} = this.state;
-        
+    SelectMsg = (Num, Tango) =>{
         var one = Num - 1;
         var three = Num + 1;
-        if(one < 0){one = Tango.length;}
-        if(three > Tango.length){three = 0;}
-        this.SetTango(one, Num, three);
+        if(one < 0){one = Tango.length - 1;}
+        if(three > (Tango.length -1)){three = 0;}
+        this.SetTango(one, Num, three, Tango);
 
     }
 
-    SetTango =(One, Two, Three) =>{
+    SetTango =(One, Two, Three, Tango) =>{
         var a = Math.floor(Math.random() * 5);
-        const {Tango} = this.state;
         var Msg = this.state.Select.slice();
-
+        console.log("One:"+ One + " Two:"+Two + " Three:"+Three);
         if(a === 0){
-            Msg[0] = Tango[One]["Japanese"];
-            Msg[1] = Tango[Two]["Japanese"];
-            Msg[2] = Tango[Three]["Japanese"];
+            Msg[0] = Tango[One].Japanese;
+            Msg[1] = Tango[Two].Japanese;
+            Msg[2] = Tango[Three].Japanese;
         }else if(a === 1){
-            Msg[0] = Tango[Two]["Japanese"];
-            Msg[1] = Tango[Three]["Japanese"];
-            Msg[2] = Tango[One]["Japanese"];
+            Msg[0] = Tango[Two].Japanese;
+            Msg[1] = Tango[Three].Japanese;
+            Msg[2] = Tango[One].Japanese;
         }else if(a === 2){
-            Msg[0] = Tango[Three]["Japanese"];
-            Msg[1] = Tango[One]["Japanese"];
-            Msg[2] = Tango[Two]["Japanese"];
+            Msg[0] = Tango[Three].Japanese;
+            Msg[1] = Tango[One].Japanese;
+            Msg[2] = Tango[Two].Japanese;
         }else if(a === 3){
-            Msg[0] = Tango[Two]["Japanese"];
-            Msg[1] = Tango[One]["Japanese"];
-            Msg[2] = Tango[Three]["Japanese"];
+            Msg[0] = Tango[Two].Japanese;
+            Msg[1] = Tango[One].Japanese;
+            Msg[2] = Tango[Three].Japanese;
         }else if(a === 4){
-            Msg[0] = Tango[One]["Japanese"];
-            Msg[1] = Tango[Three]["Japanese"];
-            Msg[2] = Tango[Two]["Japanese"];          
+            Msg[0] = Tango[One].Japanese;
+            Msg[1] = Tango[Three].Japanese;
+            Msg[2] = Tango[Two].Japanese;          
         }else{
-            Msg[0] = Tango[Three]["Japanese"];
-            Msg[1] = Tango[Two]["Japanese"];
-            Msg[2] = Tango[One]["Japanese"];               
+            Msg[0] = Tango[Three].Japanese;
+            Msg[1] = Tango[Two].Japanese;
+            Msg[2] = Tango[One].Japanese;               
         }
         this.setState({Select:Msg})
     }
@@ -88,11 +84,12 @@ export default class tango extends Component  {
     }
 
     SetNextWord = (Tango) =>{
-        var a = Math.floor(Math.random() * (Tango.length + 1));
+        console.log(Tango[0].English)
+        var a = Math.floor(Math.random() * (Tango.length));
         this.setState({Num:a})
-        this.setState({English:Tango[a]["English"]})
-        this.setState({Japanese:Tango[a]["Japanese"]})
-        this.SelectMsg(a);
+        this.setState({English:Tango[a].English})
+        this.setState({Japanese:Tango[a].Japanese})
+        this.SelectMsg(a, Tango);
     }
 
     convertCSVtoArray = (str) =>{
@@ -101,14 +98,9 @@ export default class tango extends Component  {
     }
 
     componentDidMount(){
-        this.GetCSV();
-    }
-
-    handleClick(e) {
-        /*
-        e.preventDefault();
-        this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
-        */
+        this.setState({Tango:this.props.location.state.Num})
+        
+        this.SetNextWord(this.props.location.state.Num);
     }
 
     nextClick = (buttonName) =>{
@@ -150,6 +142,7 @@ export default class tango extends Component  {
         const button1 = Msg[0];
         const button2 = Msg[1];
         const button3 = Msg[2];
+        
 
         const meta = {
             title: 'Elsammitの英単語アプリ作成してみた',
@@ -171,11 +164,11 @@ export default class tango extends Component  {
                 <ReactCardFlip isFlipped={this.state.isFlipped}  flipSpeedFrontToBack={1.0}
                     flipSpeedBackToFront={1.0} flipDirection="vertical" infinite="true" width="300px">
                     <div id="card">
-                        <img id="card" src={BlankCard} onClick={this.handleClick} alt="card" className="cardSize" />
+                        <img id="card" src={BlankCard} alt="card" className="cardSize" />
                         <p>{this.state.English}</p>
                     </div>
                     <div id="card">
-                        <img id="card" src={BlankCard} onClick={this.handleClick} alt="card" className="cardSize" />
+                        <img id="card" src={BlankCard} alt="card" className="cardSize" />
                         <p>{this.state.Japanese}</p>
                     </div>         
                 </ReactCardFlip>

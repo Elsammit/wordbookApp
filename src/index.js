@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Tango from './tango';
+//import Tango from './tango';
+import Page from './page';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Tango />
+    <Page />
   </React.StrictMode>,
   document.getElementById('root')
 );
